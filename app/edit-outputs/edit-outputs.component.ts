@@ -65,7 +65,7 @@ export class EditOutputsComponent implements OnInit {
   gradovi: Grad[] = [];
   promjenaCust: boolean = false;
   datum2: Date;
-  currentArticleVPC: any;
+  currentArticleVPC: any; 
   stavkaRabatUkupno: any;
   stavkaIznos: any;
   promiseStavke: any;
@@ -118,7 +118,7 @@ export class EditOutputsComponent implements OnInit {
       }
     });
   }
-
+ 
   ngOnInit(): void {
     this.getData();
     this.setDefaults();
@@ -136,6 +136,7 @@ export class EditOutputsComponent implements OnInit {
 
   async getData() {
     this.getTokens();
+    await this.Get();
     await this.getIsAdmin();
     await this.getSkladista();
     await this.getGradovi();

@@ -92,7 +92,7 @@
   font-weight: var(--font-medium);
   padding-bottom: 10px;
   border-radius: 10%;
-  padding: 5%;
+  padding: 0% 5% 0% 5%;
 }
 .nav__dropdown-item:hover{
   background-color:#8c3cb1;
