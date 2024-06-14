@@ -1,0 +1,91 @@
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
+</head>
+      
+<!--Delete modal-->
+
+<ng-template #templateDelete let-modal>
+  <div class="modal-header">
+  </div>
+  <div class="modal-body">
+    <form autocomplete="off">
+      <div class="form-group">
+        <div class="input-group">
+          <div class="input-group-append">
+            <h6>Da li ste sigurni da želite obrisati?</h6>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ne</button>
+    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click'); deleteCustomer()">Da</button>
+  </div>
+</ng-template>
+
+ 
+<div class="tableFrame">
+  <div class="header">
+    <div class="headerSpan">
+      <span>Kupci/Dobavljači</span>
+    </div>
+  </div>
+  <div class="underHeader">
+    <input placeholder="Pretraži" type="text" class="form-control" #pretraga (input)="filterPoNazivu(pretraga)">
+    <div class="dropdown">   
+      <button (click)="addCustomer()" class="addInputs">Dodaj kupca&nbsp;<i class="bi bi-plus"></i></button>
+      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-bs-toggle="dropdown" aria-expanded="false">
+        Sortiraj po
+      </button>
+      <ul class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <li><button class="dropdown-item" type="button"(click)="Sortiranje()">nazivu</button></li> 
+        <li><button class="dropdown-item" type="button"(click)="SortiranjePoSifri()">sifri</button></li> 
+      </ul>   
+    
+  </div>
+  </div>
+  <table class="table">
+      <thead>
+          <tr>
+            <th>Sifra</th>
+              <th>Naziv</th>
+              <th>Adresa</th>
+              <th>Email</th>
+              <th>Telefon</th>
+              <th>PDV broj</th>
+              <th>ID broj</th>
+              <th>Grad</th>
+              <th>Akcije</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of this.customers | slice: pageSize | slice: 0:itemsPerPage">
+            <td data-label="Sifra">{{item.sifra}}</td>
+              <td data-label="Naziv">{{item.naziv}}</td>
+              <td data-label="Adresa">{{item.adresa}}</td>
+              <td data-label="Email">{{item.email}}</td>
+              <td data-label="Telefon">{{item.telefon}}</td>
+              <td data-label="PDV broj">{{item.pdvbroj}}</td>
+              <td data-label="ID broj">{{item.idbroj}}</td>
+              <td data-label="Grad">{{item.gradNaziv}}</td>
+              <td class="actions">
+                  <button class="btnuredi"(click)="editCustomer(item)"><i class="bi bi-pencil-square"></i>Uredi</button>
+                  <button class="btnobrisi"(click)="DeleteModal(templateDelete, item)"><i class="bi bi-card-text"></i>Obriši</button>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+  <ngb-pagination id="pageing" [collectionSize]="this.customers.length" [pageSize]="itemsPerPage" 
+  [(page)]="currentPage" [maxSize]="10" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+</div>

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
+    <title>Document</title>
+</head>
+<body>
+    <input type="checkbox"id="sidebar-toggle">
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <a routerLink="/adminpanel/companyProfile">
+                <div class="nav__logo-name"><img src="../../assets/img/baner.png"class="baner"></div>
+            </a>
+            <label for="sidebar-toggle"><i class='bx bxs-grid' ></i></label>
+        </div>
+        <div class="sidebar-menu">
+            <ul>
+                <li>
+                    <a routerLink="/adminpanel/companyProfile" class="nav__link active">
+                        <i class='bx bx-user nav__icon' ></i>
+                        <span class="nav__name"routerLinkActive="active-link">Podaci kompanije</span>
+                    </a>
+                </li>
+                <li>
+                    <div class="nav__dropdown">
+                        <a class="nav__link">
+                            <i class='bx bx-data nav__icon' ></i>
+                            <span class="nav__name">Podaci</span>
+                        </a>
+                        <div class="nav__dropdown-collapse">
+                            <div class="nav__dropdown-content">
+                                <a routerLink="/adminpanel/vrste"span class="nav__dropdown-item"routerLinkActive="active-link"><p routerLinkActive="active-link">Vrste artikala</p></a>
+                                <a routerLink="/adminpanel/groups"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Grupe artikala</p></a>
+                                <a routerLink="/adminpanel/items"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Artikli</p></a>
+                                <a routerLink="/adminpanel/customers"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Kupci/Dobavljači</p></a>
+                                <a routerLink="/adminpanel/grad"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Grad</p></a>
+                                <a routerLink="/adminpanel/skladiste"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Skladište</p></a>
+                                <a routerLink="/adminpanel/porez"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Porez</p></a>
+                                <!-- <a routerLink="/adminpanel/clients" class="nav__dropdown-item">Klijenti</a> -->
+                                <a *ngIf="isAdmin" routerLink="/adminpanel/users"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Korisnici</p></a>
+                                <a routerLink="/adminpanel/manufacturers"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Proizvođači</p></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav__dropdown">
+                        <a class="nav__link">
+                            <i class='bx bx-library nav__icon' ></i>
+                            <span class="nav__name">Dokumenti</span>
+                        </a>
+
+                        <div class="nav__dropdown-collapse">
+                            <div class="nav__dropdown-content">
+                                <a routerLink="/adminpanel/outputs"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Izlazni računi</p></a>
+                                <a routerLink="/adminpanel/inputs"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Ulazni računi</p></a>
+                                <a routerLink="/adminpanel/otpremnice"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Otpremnice</p></a>
+                                <a routerLink="/adminpanel/medjuskladisnice"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Međuskladišnica</p></a>
+
+                            </div>
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <div class="nav__dropdown">
+                        <a class="nav__link">
+                            <i class='bx bx-data nav__icon' ></i>
+                            <span class="nav__name">Izvještaj</span>
+                        </a>
+                        <div class="nav__dropdown-collapse">
+                            <div class="nav__dropdown-content">
+                                <a routerLink="/adminpanel/stanjeskladista"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Stanje skladišta</p></a>
+                                <a routerLink="/adminpanel/rekapitulacija"routerLinkActive="active-link" class="nav__dropdown-item"><p routerLinkActive="active-link">Rekapitulacija</p></a>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="main-content">
+        <header>
+            <div class="social-icons">
+                <p style="margin:10px 6px 6px 6px;">{{this?.currUser?.ime}}</p>
+               <a routerLink="/adminpanel/companyProfile" ><img [src]="ImageM" alt=""></a>
+               <a (click)="odjavi()"><img src="../../assets/img/logout.png" alt="" style="cursor: pointer;"></a>
+            </div>
+        </header>
+        <main>
+            <router-outlet></router-outlet>
+        </main>
+    </div>
+</body>
+</html>

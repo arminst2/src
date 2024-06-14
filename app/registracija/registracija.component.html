@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <section id="header1">
+            <div class="main-header">
+            <div *ngIf="isRegistrovan==true" class="alert-success">Posjetite Email da biste verifikovali račun.</div>
+
+                <form #submitForm="ngForm" novalidate autocomplete="off" (ngSubmit)="onSubmit()">
+                    <h1>Registracija</h1>
+                    <h6>Podaci o firmi</h6>
+                    <p><input type="text" [(ngModel)]="klijent.naziv" name="naziv" placeholder="Naziv firme"></p>
+                    <p><input type="text" [(ngModel)]="klijent.adresa" name="adresa"placeholder="Adresa"></p>            
+                    <p><input type="text" [(ngModel)]="klijent.mjesto" name="mjesto"placeholder="Mjesto"></p>            
+                    <p><input type="text" [(ngModel)]="klijent.pdvbroj" name="pdvbroj"placeholder="PDV broj"></p>
+                    <p>
+                        <input type="text"  [(ngModel)]="klijent.idbroj" name="idbroj"placeholder="ID broj" (input)="unosIDBroja()">
+                        <div *ngIf="iDSameAsPDV==true" class="alert-danger">ID broj ne smije biti isti kao PDV broj</div>
+                    <!-- </p> -->
+                    <p><input type="text" [(ngModel)]="klijent.telefon" name="telefon"placeholder="Telefon"></p>
+                    <p><input type="text" [(ngModel)]="klijent.email" name="email"placeholder="Email"></p>
+                    <p><input type="text" [(ngModel)]="klijent.odgovornaOsoba" name="odgovornaOsoba"placeholder="Ime i prezime odgovorne osobe"></p>
+                    <p><input type="text" [(ngModel)]="klijent.brojBankovnogRacuna" name="brojBankovnogRacuna"placeholder="Broj bankovnog računa"></p>
+                    
+                    <h6>Podaci o administratoru</h6>
+                    <p><input type="text"[(ngModel)]="korisnik.ime" name="ime" placeholder="Ime"></p>            
+                    <p><input type="text" [(ngModel)]="korisnik.prezime" name="prezime"placeholder="Prezime"></p>            
+                    <p><input type="text" [(ngModel)]="korisnik.korisnickoIme" name="korisnickoIme" 
+                        placeholder="Korisničko ime" (input)="refreshValidation()" required>
+                        <div *ngIf="isAvailable==false" class="alert-danger">Korisničko ime je zauzeto</div>           
+                    <p><input type="password" [(ngModel)]="korisnik.lozinka" name="lozinka"placeholder="Lozinka"></p>
+
+                    <p><button type="submit" [disabled]="submitForm.invalid" [disabled]="isAvailable==false">Registruj se</button></p>
+                </form>
+            </div>
+        
+    </section>
+</body>
+</html>

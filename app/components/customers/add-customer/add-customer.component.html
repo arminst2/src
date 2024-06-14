@@ -1,0 +1,97 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+<div class="Frame">
+    <div class="header">
+        <span>Kupac/Dobavljač</span>
+    </div>
+    <form action="" #form="ngForm" (submit)="onSubmit(form)" autocomplete="off" >
+        <div class="mainsection">
+            <!--firs red-->
+            <div class="form-group">
+                <input type="hidden" name="kupacID" [value]="service.formData.kupacId">
+                <div class="form-row">
+                    <div class="col">
+                        <label>Sifra</label>
+                        <input type="text" class="form-control" name="sifra" placeholder="Sifra" #sifra="ngModel"
+                        [(ngModel)]="service.formData.sifra" tabindex="0">
+                    </div>
+                    <div class="col">
+                        <label>Naziv</label>
+                        <input type="text" class="form-control" name="naziv" placeholder="Naziv" #naziv="ngModel" 
+                        [(ngModel)]="service.formData.naziv" required>
+                    </div>
+                    <div class="col">
+                        <label>Adresa</label>
+                        <input type="text" class="form-control" name="adresa" placeholder="Adresa" #adresa="ngModel"
+                        [(ngModel)]="service.formData.adresa" required>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="col">
+                        <label>Email</label>
+                        <input type="text" class="form-control" name="email" placeholder="Email" #email="ngModel" 
+                        [(ngModel)]="service.formData.email">
+                    </div>
+                    <div class="col">
+                        <label>Telefon</label>
+                        <input type="text" class="form-control" name="telefon" placeholder="Telefon" #telefon="ngModel"
+                        [(ngModel)]="service.formData.telefon">
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="col">
+                        <label>PDV broj</label>
+                        <input type="text" class="form-control" name="pdvbroj" placeholder="PDV broj" #pdvbroj="ngModel" 
+                        [(ngModel)]="service.formData.pdvbroj" required>
+                        <div *ngIf="pdvbroj.touched && pdvbroj.value.length != 12" class="alert-danger" style="font-size: 12px;">PDV broj mora sadržavati 12 karaktera!</div>
+                    </div>
+                    <div class="col">
+                        <label>ID broj</label>
+                        <input type="text" class="form-control" name="idbroj" placeholder="ID broj" #idbroj="ngModel" 
+                        [(ngModel)]="service.formData.idbroj" (input)="unosIdBroja()" required>
+                        <div *ngIf="IDSameAsPDV==true" class="alert-danger" style="font-size: 12px;">ID broj ne smije biti isti kao PDV broj</div>
+                        <div *ngIf="idbroj.touched && idbroj.value.length != 13" class="alert-danger" style="font-size: 12px;">ID broj mora sadržavati 13 karaktera!</div>
+                    </div>
+                    <div class="col">
+                        <label>Grad</label>
+                        <!-- <input type="text" class="form-control" placeholder="Grad ID" name="gradId" #idbroj="ngModel" [(ngModel)]="service.formData.gradId"> -->
+                        <select name="gradId" class="form-control" #gradId="ngModel"
+                            [(ngModel)]="service.formData.gradId" required>
+                            <option value="0" [disabled]=true [selected]=true>Odaberite grad</option>
+                            <option *ngFor="let grad of gradovi" [value]="grad.gradId"> {{grad.naziv}}</option>
+                        </select>
+                    </div>
+                    <div class="col">
+                        <label>Valuta plaćanje</label>
+                        <input type="text" class="form-control" name="brojDana" placeholder="Broj dana" #brojDana="ngModel" 
+                        [(ngModel)]="service.formData.brojDana">
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <!--Buttons-->
+
+            <div class="form-row">
+                <div class="col">
+                    <button type="button" class="btn btn-danger" (click)="otkazi(form)">Otkaži</button>
+                    <button type="submit" class="btn btn-info" [disabled]="form.invalid || gradId.value == 0 || IDSameAsPDV == true">
+                        Sačuvaj
+                    </button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

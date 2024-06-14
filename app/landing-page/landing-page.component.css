@@ -1,0 +1,1302 @@
+@import url('https://fonts.googleapis.com/css2?family=Orelega+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Orelega+One&family=Poppins&display=swap');
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+html{
+    font-size: 10px;
+    scroll-behavior: smooth;
+}
+.container{
+    min-height: 100vh;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    font-family: 'Orelega One', cursive;
+    font-family: 'Poppins', sans-serif;
+
+}
+
+
+p{
+    margin-top: 5px;
+    line-height: 2rem;
+    font-weight: 300px;
+    letter-spacing: .05rem;
+    color:black;
+}
+li{
+    list-style-type: none;
+}
+li a{
+    text-decoration: none;
+    text-transform: lowercase;
+}
+
+/*header*/
+
+header{
+    position: fixed;
+    z-index: 1000;
+    left:0;
+    top: 0;
+    width: 100%;
+    
+}
+#header .header{
+    min-height: 8vh;
+    background-color: #200933;
+    transition: .3s ease background-color;
+}
+ 
+#header .nav-bar{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    height: 100%;
+    padding: 0 10px;
+ 
+
+   /* background-color: #200933;*/
+  
+   
+}
+.header{
+    background-color: #200933 !important;
+    padding-top: 5px;
+    
+}
+.nav-bar-scrolled{
+    background-color: #200933;
+}
+#header .brand{
+    margin-left: 50px;
+}
+
+#header .brand:hover{
+    transform: scale(1.1);
+   
+}
+
+#header .brand a{
+    text-decoration: none;
+    color: white;
+    font-family: 'Orelega One', cursive;
+    font-family: 'Poppins', sans-serif;
+}
+#header .brand span{
+    color:#dba6f4;
+    font-size: 5rem;
+    font-family: 'Orelega One', cursive;
+}
+#header .nav-list ul{
+    list-style: none;
+    position: absolute;
+    background-color: /*rgba(21, 9, 36, 0.993)*/ #200933;
+    width: 100%;
+    height: 100vh;  
+    left: 100%;
+    top: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    z-index: 1;
+    overflow-x: hidden;
+    transition: .3s ease left;
+    background-color: #200933;
+    
+}
+
+#header .nav-list ul.active{
+    left: 0;
+    background-color: #200933;
+}
+#header .nav-list ul li{
+    padding: 15px;
+    /*background-color: #200933;*/
+}
+#header .nav-list ul li a{
+    color: white;
+    font-size: 1rem;
+    font-weight: 500;
+    letter-spacing: .3rem;
+    text-transform: uppercase;
+    display: block;
+   /* font-family: 'Orelega One', cursive;
+    font-family: 'Poppins', sans-serif;*/
+    font-family: 'CatamaranRegular', sans-serif;
+    word-spacing: 200%;
+    margin-right: 50px;
+    text-transform: none;
+    float:right;
+    letter-spacing: -0.05em;
+}
+#header .nav-list ul li a:hover{
+    transform: scale(1.2);
+  /* background-color: #200933;*/
+    
+}
+
+#header-scrolled{
+    background-color:#200933;
+}
+#header .nav-list ul li a::after{
+    content: attr(data-after);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%) scale(0);
+    color: #2b163656;
+    font-size: 7rem;
+    letter-spacing: 100px;
+    z-index: -1;
+    transition: .3s ease letter-spacing;
+    text-align: center;
+    /*background-color: #200933;*/
+}
+#header .nav-list ul li {
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+}
+
+#header .nav-list ul li .tryfree{
+    border:1px solid #200933;
+    background-color:#200933;
+    border-radius: 15px;
+    padding: 100px;
+}
+#header .nav-list ul .tryfree:hover{
+    background-color:#200933 ;
+    color:#200933 ;
+}
+#header .nav-list ul li:hover a::after{
+    transform: translate(-50%,-50%) scale(1);
+    letter-spacing: initial;
+    background-color: #200933;
+}
+#header .hamburger{
+    height: 60px;
+    width: 60px;
+    display:inline-block;
+    border: 3px solid white;
+    border-radius: 50%;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content:center ;
+    cursor: pointer;
+    z-index: 100;
+    transform: scale(.8);
+    background-color: #200933;
+}
+#header .hamburger::after{
+    position: absolute;
+    content: '';
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    border:10px solid rgba(255, 255, 255, 0.363);
+    animation: hamburger_circle 3s ease infinite;
+    background-color: #200933;
+}
+@keyframes hamburger_circle{
+    0%{
+        opacity: 1;
+        transform: scale(1);
+    }
+    100%{
+        opacity:0 ;
+        transform: scale(1.5);
+    }
+}
+#header .hamburger .bar{
+    height: 2px;
+    width: 30px;
+    position: relative;
+    background-color: white;
+    z-index: -1;
+}
+#header .hamburger .bar::after,
+#header .hamburger .bar::before{
+    content: '';
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    left:0 ;
+    background-color: white;
+    transition: .3s ease;
+    transition-property: top,bottom;
+}
+#header .hamburger .bar::after{
+    top: 8px;
+}
+#header .hamburger .bar::before{
+    bottom: 8px;
+}
+#header .hamburger.active .bar::before,
+#header .hamburger.active .bar::after{
+    top: 0;
+    bottom: 0;
+}
+.buttonSignIn{
+    width: 80%;
+    height: 5%;
+    margin-left: 20px;
+    background-color: #FFBC51;
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    font-size: small;
+    text-align: center;
+}
+
+/*end header*/
+
+
+
+/*Početna */
+
+#homeFrame{
+    padding: 25px;
+    margin-top: 55px;
+
+}
+#home{
+    background-image: url(../../assets/img/background.png);
+    background-size: cover;
+    background-position:bottom;
+    position: relative;
+    text-align: center;
+    max-height: 100%;
+
+}
+
+/*#home img:first-child{
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+#home img:last-child {
+    position: relative;
+    top: 20px; /* adjust as needed */
+    /*z-index: 2;
+  }*/
+
+#home h1{
+    display: block;
+    width:auto;
+    font-size: 3.5rem;
+    position: relative;
+    color: transparent;    
+    animation: text_reveal .5s ease forwards;
+    animation-delay: 1s; 
+    font-family: 'Catamaran-ExtraBold', sans-serif;
+    font-weight: bolder;
+}
+#home h3{
+    display: block;
+    width: fit-content;
+    font-size: 1rem;
+    position: relative;
+    color: transparent;    
+    margin-top: 20px;
+    animation: text_reveal .5s ease forwards;
+    animation-delay: 1s; 
+    font-family: 'CatamaranRegular', sans-serif;
+}
+#home h1:nth-child(1){
+    animation-delay: .5s;
+}
+#home h3:nth-child(2){
+    animation-delay: 2s;
+}
+#home h3 span{
+    position: absolute;
+    top:0;
+    left:0;
+    height: 100%;
+    width: 0;
+    background-color: #200933;
+    animation:text_reveal_box 1s ease;
+    animation-delay: 1.5s;
+}
+#home h3:nth-child(1) span{
+    animation-delay: 1s;
+}
+.onsons{
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content:space-evenly;
+}
+#header .nav-list ul li .tryfree{
+    border:1px solid white;
+    padding: 15px;
+}
+#header .nav-list ul li .tryfree:hover{
+    background-color:#200933 ;
+    color:white ;
+    transform: scale(1.1);
+
+}
+
+#home .Buttons a{
+    display: inline-block;
+    padding: 10px 30px;
+    color: white;    
+    background-color:/*rgba(255, 255, 255, 0.39)*/ #FFBC51 ;
+    border: 1px solid #d1b2df;
+   /* border-radius: 15px;*/
+   /* font-size: 1.5rem;*/
+   /* text-transform: uppercase;*/
+    letter-spacing: .1rem;
+   margin-top: 30px;
+    transition:.3s ease;
+    transition-property: background-color,color;
+    margin-right: 18px;
+    text-decoration: none;
+    font-size: 18px;
+    padding: 10px 12px 10px 5px;
+    width: 170px;
+    height: 43px;
+    text-align: center;
+    align-items: center;
+    font-family:'CatamaranRegular', sans-serif ;
+    font-weight: bold;
+    text-transform: capitalize;
+    border-radius: 5px;
+}
+#home .Buttons a:hover{
+    background-color:#f6c069 ;
+    color: white;
+}
+.row{
+    width: 100%;
+}
+#home.home.container{
+    flex-direction: column;
+}
+
+.homeMockupDesktop img{
+    width:600px;
+    height: 600px;
+    border: none;
+    background-color: transparent;
+   
+    animation: bounceTop_01 3s ease infinite;
+}
+.slika{
+    width:200px;
+}
+@keyframes text_reveal_box{
+    50%{
+        width: 100%;
+        left: 0;
+    }
+    100%{
+        width: 0;
+        left: 100%;
+    }
+}
+@keyframes text_reveal{
+    100%{
+        color: white;
+    }
+}
+@keyframes bounceTop_01{
+    0%,100%{
+        transform: translateY(-15px);
+    }
+    50%{
+        transform: translateY(0px);
+    }
+}
+
+.headerNav li a {
+    cursor: pointer;
+}
+
+
+/*Zašto Faktura.ba section*/
+#why-container{
+    flex-direction: flex;
+    max-width: 1800px;
+    margin: 0 auto;
+    padding: 100px 150px;
+    margin-left: 80px;
+    font-family: 'CatamaranRegular', sans-serif;
+}
+
+.why-top, .why-bottom, .why-middle{
+    max-width: 100%;
+    max-height: 300px;
+    margin-top: 20px;
+    size: auto;
+    margin-bottom: 200px;
+
+}
+
+.flex-left {
+    padding-top: 80px;
+}
+
+.why-middle .flex-right{
+    margin-left: 50px;
+}
+
+.why-bottom{
+    padding-bottom: 0px;
+    padding-top: 120px;
+}
+
+.why-middle #flex-container{
+    flex-direction: row-reverse;
+    margin-top: 40px;
+}
+
+.why-middle #flex-container .flex-left{
+   position: relative;
+   left: 120px;
+}
+
+.why-middle #flex-container .flex-right{
+    position: relative;
+    right: 100px;
+}
+
+.why-bottom #flex-container .flex-right{
+   margin-left: 50px;
+}
+
+.why-bottom #flex-container .flex-left{
+    margin-top: 0px;
+ }
+
+.icon{
+    position: relative;
+    right: 40px;
+    top: 120px;
+    z-index: 0;
+    width: 50%;
+}
+
+.why-middle .icon{
+    right: -60%;
+    top: 160px;
+    size: auto;
+}
+
+.why-title{
+    font-family: 'Catamaran-ExtraBold', sans-serif;
+    font-size: 30px;
+    letter-spacing: 0.04em;
+    color: #5F0CB8;
+    width: 80%;
+    position: relative;
+    z-index: 1;
+    padding-top: 0;
+}
+
+#flex-container{
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+#flex-container img{
+    width: 600px;
+    float: right;
+    margin: auto;
+}
+
+#flex-container .flex-left,  #flex-container .flex-right{
+width: 48%;
+}
+
+#flex-container .flex-right{
+    position: relative;
+    bottom: 60px;
+    right: 0;
+}
+
+/*End Zašto Faktura.ba section*/
+
+/*background*/
+.background-bubble1{
+    position: absolute;
+    width: 120px;
+    height: 250px;
+    right: 0;
+    top: 80vh;
+}
+
+.background-bubble2{
+    position: absolute;
+    width: 90px;
+    height: 300px;
+    left: 0px;
+    top: 120vh;
+}
+
+.background-bubble3{
+    position: absolute;
+    width: 90px;
+    height: 300px;
+    right: 0px;
+    top: 200vh;
+}
+
+/*offers*/
+
+
+.tryOut-item{
+    background-color: #5F0CB8;
+    color: white;
+    display: flex;
+    margin: auto;
+    width: 90%;
+    border-radius: 24px;
+    position: relative;
+    top: 45px;
+}
+.tryOut-item h3{
+    padding: 30px;
+    margin-top: 2px;
+    margin-left: 10px;
+    width: 85%;
+}
+.tryOut-item .tryOutButton{
+    width: 10%;
+    padding: 10px;
+    height: 5%;
+    margin-top: 30px;
+    background-color: #FFBC51;
+    color: white;
+    text-decoration: none;
+    border-radius: 15px;
+    font-size: small;
+    text-align: center;
+}
+.tryOut-item .tryOutButton:hover{
+    color:white ;
+    transform: scale(1.1);
+}    
+
+.functionalities{
+    background-color: #210933;
+    color: white;
+    height: 450px;
+    text-align: center;
+    display: flex;
+    margin-top: 0;
+    
+}
+
+.functionalities-item{
+    width: 20%;
+    height: 50%;
+    margin: auto;
+    padding: 15px;
+
+}
+
+.functionalities-item img{
+    width: 10%;
+    height: 10%;
+    margin: 10px;
+}
+
+.functionalities-item p{
+    color: white;
+    padding: 3px;
+}
+
+.func-title{
+    margin-top: 0px;
+    color: #FFBC51;
+}
+
+#first-item .func-title{
+    margin-top: 15px;
+}
+
+#second-item .func-title{
+    margin-top: 9px;
+}
+
+/*footer*/
+footer{
+    background: #5F0CB8;
+    height: auto;
+    width: 100%;
+    padding: 20px;
+    color: #fff;
+}
+.col-md-6 {
+    padding: 10px;
+}
+footer .left-side{
+    text-align: center;
+    padding-top: 5px;
+    padding-right: 150px;
+}
+
+footer .right-side{
+    text-align: center;
+    padding-left: 350px;
+}
+
+footer .right-side img
+{
+    width: 150px;
+    height: 25px;
+}
+/*animacija* u #why sam dodala relative/
+.why-top{
+    opacity: 0;
+  transform: translateY(50%);
+  animation: slide-up 1s ease-out forwards;
+}
+.flex-left {
+    opacity: 0;
+    transform: translateX(-50%);
+    animation: slide-in-left 1s ease-out forwards;
+  }
+  
+  .flex-right {
+    opacity: 0;
+    transform: translateX(50%);
+    animation: slide-in-right 1s ease-out forwards;
+  }
+  
+  @keyframes slide-up {
+    0% {
+      opacity: 0;
+      transform: translateY(50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0%);
+    }
+  }
+  
+  @keyframes slide-in-left {
+    0% {
+      opacity: 0;
+      transform: translateX(-50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+  }
+  
+  @keyframes slide-in-right {
+    0% {
+      opacity: 0;
+      transform: translateX(50%);
+    }
+    100% {
+      opacity: 1;
+      transform: translateX(0%);
+    }
+  }*/
+  
+/*PHONE*/
+
+@media only screen and (max-width: 1023px) {
+    
+    *{
+        padding: 0;
+        margin: 0;
+        box-sizing: border-box;
+    }
+
+    body{
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+    }
+
+    .background-bubble1, .background-bubble2, .background-bubble3, .icon, .icon img{
+        display: none;
+    }
+
+
+    /*Header*/
+    .brand img{
+        max-width: 35vw;
+        padding-left: 20px;
+    }
+
+    #header .hamburger{
+        height: 50px;
+        width: 50px;
+    }
+
+    #header .hamburger .bar {
+        height: 2px;
+        width: 25px;
+    }
+
+    .nav-list{
+        text-align: center;
+        padding: 5px;
+    }
+
+    #header .nav-list .headerNav{
+        display: none;
+    }
+
+
+    #header .nav-list ul li a {
+        margin-right: 10px;
+    }
+
+    #header .nav-list ul li:hover a::after{
+        transform: translate(-20%,-20%) scale(0);
+    }
+
+    .buttonSignIn{
+        margin: 0px;
+        height: 0%;
+    }
+    #header .brand{
+        margin-left: 0px;
+        text-align: center;
+    }
+
+    #header .header{
+        min-height: 6vh;
+    }
+
+    .Buttons {
+        justify-content: center;
+    }
+
+    #home .Buttons a{
+        font-size: 14px;
+        padding: 5px 6px 5px;
+        width: 130px;
+        height: 32px;
+        margin-top: 15px;
+    }
+
+    /*Početna */
+    .container{
+        padding: 0.75rem 1.5rem;
+    }
+
+    #homeFrame{
+        margin-top: 10px;
+    }
+    
+     .row, .col-md-6{
+        width: 100%;
+        padding-top: 0px;
+    }
+
+    .textBox{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+    }
+
+    .homeMockupDesktop{
+        display: none;
+    }
+
+    #homeFrame h1{
+        font-size: 2rem;
+    }
+
+    #home{
+        background-size: cover;
+        max-height: 65vh;
+
+    }
+
+    #why-container{
+        display: flex;
+        flex-direction: column;
+        margin: auto;
+        padding: 8%;
+        max-width: 80vw;
+        height: 900vh;
+        padding: 0;
+        font-size: small;
+    }
+
+    #why{
+        height: 35%;
+        width: 100%;
+        margin-bottom: 0px;
+    }
+    
+    .why-top, .why-bottom, .why-middle{
+        margin-top: 10px;
+        margin-bottom: 10px;
+    
+    }
+
+    .why-top, .why-bottom, .why-middle{
+        min-height: 10vh;
+        margin-top: 10px;
+        margin-bottom: 10px;
+     
+     }
+
+    .why-top{
+        height: 100%;
+        margin-top: 5%;
+        margin-bottom: 50%;
+
+    }
+
+    #flex-container{
+        display: flex;
+        flex-direction: column;
+        justify-content:flex-end;
+        flex-wrap: wrap;
+        align-content: space-between;
+        padding-right: 0px;
+        height: 100%;
+        width: 100%;
+    }
+    
+    .flex-left {
+        display: grid;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        margin-bottom: 15%;
+    }
+
+    #flex-container .flex-right{
+        bottom: 0px;
+    }
+
+    .flex-right{
+        display: grid;
+        align-items: center;
+        justify-self: center;
+        height: 100%;
+    }
+
+    #features{
+        height: 70%;
+        width: 100%;
+        margin-bottom: 0;
+    }
+    
+    .why-middle{
+        margin-bottom: 0px;
+    }
+
+    .why-middle .why-title{
+        text-align: end;
+        width: 100%;
+    }
+
+    .why-middle p{
+        text-align:right
+    }
+    
+    .why-middle #flex-container{
+        margin-top: 10px;
+        padding: 0px;
+    }
+    
+    .why-middle #flex-container .flex-left{
+       position: relative;
+       left: 10px;
+       padding-top: 30px;
+       padding-right: 0px;
+       text-align: right;
+    }
+
+    
+    .why-middle #flex-container .flex-right{
+        display: grid;
+        align-items: center;
+        justify-content: end;
+        height: 100%;
+        margin-bottom: 0;
+        left: 0;
+        right: 0;
+        padding-top: 5rem;
+    }
+
+    .why-bottom{
+        margin-bottom: 0;
+        margin-top: 0;
+    }
+    
+
+    .why-bottom #flex-container{
+       margin: 0px;
+       width: 100%;
+       flex-direction: row;
+       justify-content: space-between;
+    }
+
+   .why-bottom #flex-container .flex-left{
+        margin-right:0px;
+        padding-right: 5px;
+       
+     }
+
+    .why-bottom #flex-container .flex-right{
+        left: 0px;
+        width: 50%;
+        margin-left: 0;
+        justify-content: end;
+        height: 100%;
+        padding-top: 5rem;
+     }
+     
+    .why-bottom #flex-container img{
+        margin-left: 10%;
+    }
+
+    .why-title{
+        font-family: 'Catamaran-ExtraBold', sans-serif;
+        font-size: 30px;
+        letter-spacing: 0.04em;
+        color: #5F0CB8;
+        width: 100%;
+        position: relative;
+        z-index: 1;
+        padding-top: 0;
+        text-align: start;
+    }
+    
+    #flex-container img{
+        max-width: 45vw;
+        float: right;
+        align-self: center;
+        margin-left: auto;
+    }
+    
+    #flex-container .flex-left,  #flex-container .flex-right{
+    width: 48%;
+    }
+    
+    #flex-container .flex-right{
+       padding: 0;
+       margin:0;
+    }
+
+    #offers
+    {
+        height: 100%;
+        margin-top: 10px;
+    }
+    
+    /*End Zašto Faktura.ba section*/
+
+    /*offers*/
+    .tryOut-item h3{
+        padding: 15px 0 15px 0;
+        margin-top: 0px;
+        margin-left: 5%;
+        text-align: start;
+        width: 60%;
+        font-size: 15px;
+    }
+
+    .tryOut-item h3 .line-break::after {
+        content: "\A";
+        white-space: pre;
+    }
+      
+    .tryOut-item .tryOutButton{
+        width: 20%;
+        padding: 10px;
+        height: 5%;
+        margin: auto;
+    }
+        
+
+    .functionalities-item{
+        width: 100%;
+        height: 70%;
+        padding: 5px;
+        margin-top: 50px;
+
+    }
+
+    .functionalities-item img{
+        width:15%;
+        height: 15%;
+        margin: 10px;
+    }
+
+    #third-item img{
+        width: 10%;
+        height: 10%;
+    }
+
+    .functionalities-item p{
+        padding: 1px;
+        font-size: 10px;
+    }
+
+    .functionalities-item h3{
+        font-size: 12px;
+    }
+
+    .func-title{
+        width: 100%;
+    }
+
+    #third-item .func-title{
+        margin-top: 12px;
+    }
+    
+    /*footer*/
+    footer {
+       height: 80px;
+       margin: 0px;
+    }
+    
+    footer .row{
+        padding: 0px;
+        justify-content: space-between;
+    }
+
+    footer .col-md-6{
+        width: 45%;
+        padding: 0;
+    }
+
+    footer .left-side span .line-break::after {
+        content: "\A";
+        white-space: pre;
+    }
+
+    footer .left-side{
+        text-align: left;
+        padding-top: 0px;
+        padding-right: 0px;
+        padding-left: 20px;
+        width: 100%;
+        font-size: 10px;
+        margin: auto;
+    }
+    
+    footer .right-side{
+        text-align: right;
+        padding-left: 0px;
+        width: 100%;
+        padding-top: 5px;
+    }
+    
+    footer .right-side img
+    {
+        width: 125px;
+        height: 20px;
+    }
+  }
+
+
+/*TABLET*/
+@media only screen and (min-width: 689px) and (max-width: 1023px) {
+    #home .Buttons a{
+        font-size: 18px;
+        padding: 10px 12px 10px 5px;
+        width: 170px;
+        height: 43px;
+        margin-top: 30px;
+    }
+
+    #homeFrame .textBox{
+        padding: 10px;
+    }
+
+    .brand img{
+        max-width: 25vw;
+        padding-left: 30px;
+    }
+
+    #why-container{
+        font-size: 18px;
+    }
+
+    #home{
+        min-height: 50vh;
+
+    }
+
+    #home h3{
+        font-size: 1.5rem;
+    }
+
+    #home h1{
+        font-size: 3rem;
+    }
+
+    .why-title{
+        width: 100%;
+    }
+
+    .why-middle p, .why-middle .why-title{
+        text-align: left;
+    }
+
+    .why-middle .flex-left{
+        padding: 10% 0 0 10%;
+    }
+
+    .why-bottom{
+        margin-top: 20%;
+    }
+
+    .tryOut-item{
+        padding: 0px 30px;
+    }
+
+    .tryOut-item h3 {
+        padding: 30px 0 30px 0px;
+        margin-top: 2px;
+        margin-left: 0px;
+        width: 85%;
+        font-size: 1.5rem;
+    }
+
+
+    .tryOut-item .tryOutButton{
+        width: 20%;
+        padding: 10px;
+        height: 5%;
+        font-size:small;
+    }
+
+    .functionalities{
+        padding-top: 5%;
+    }
+
+    .functionalities-item p{
+        padding: 10px;
+        font-size: 18px;
+    }
+
+    .functionalities-item h3{
+        font-size: 16px;
+    }
+
+    footer .left-side{
+        font-size: 14px;
+    }
+
+}
+
+/*DESKTOP*/
+@media only screen and (min-width: 1024px)
+{
+/*navbar*/
+
+#header .nav-list ul li .tryfree{
+    border:1px solid white;
+    background-color:#200933 ;
+    padding: 15px;
+}
+#header .nav-list ul li .tryfree:hover{
+    background-color:#dba6f444 ;
+    color:white ;
+}
+
+    #header .nav-list ul{
+        margin-top: 15px;
+    }
+    #header .hamburger{
+        display: none;
+    }
+    #header .nav-list ul{
+        position: initial;
+        display: block;
+        height: auto;
+        width: fit-content;
+        background-color: transparent;
+    }
+    #header .nav-list ul li{
+        display: inline-block;
+    };
+    #header .nav-list ul li a{
+        font-size: 20px;
+    }
+    #header .nav-list ul a::after{
+        display: none;
+    }
+    /*Početna */
+    .container{
+        align-items: center;
+        justify-content: center;
+        min-height: 200px;
+        padding-top: 50px;
+    }
+    #home{
+        text-align:start;
+        height: 100%;
+    }
+    #home .col-md-6{
+        width: 50%;
+    }
+    .textBox{
+        display: unset;
+    }
+    #homeFrame{
+        margin-top:0;    
+        padding:25px;
+    }
+    .Buttons{
+        justify-content: unset;
+    }
+    .homeMockupDesktop{
+        width: 100%;
+        height: 100%;
+    }
+    .row{
+        align-items:center;
+    }
+    .homeMockupDesktop img{
+        width: 450px ;
+        height: 400px;
+    }
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

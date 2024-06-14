@@ -1,0 +1,162 @@
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+  </script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+  </script>
+</head>
+<div class="Frame">
+  <div class="header">
+    <div class="headerSpan">
+      <span>Stanje skladišta</span>
+    </div>
+    <div class="form-row">
+      <div class="col d-flex justify-content-end">
+        <button id="prikaziStanje" type="submit" class="btn btn-info me-2" disabled="true" (click)="printStanje(0)">Prikaži stanje</button>
+        <button id="printStanje" type="submit" class="btn btn-info" disabled="true" (click)="printStanje(1)">Print stanje&nbsp;<i class="bi bi-printer"></i></button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="mainsection">
+  <form #stSkladistaForm="ngForm" autocomplete="off">
+    <!--firs red (ngSubmit)="printStanje()" -->
+    <div class="form-group mb-0">
+      <div class="form-row">
+        <div class="col-4 m-0">
+          <label class="w-100 text-start">Skladište</label>
+          <select id="inputState" [(ngModel)]="skladiste.skladisteId" name="skladisteId" class="custom-select" required 
+          (change)="changeSkladiste($event)">
+            <option value="0" [selected]="true">---</option>
+            <option *ngFor="let item of skladista" value="{{item.skladisteId}}">{{item.naziv}}</option>
+          </select></div>
+          <div class="col-4 m-0">
+            <label class="w-100 text-start">Datum od</label>
+            <div style="display: flex;">
+              <input name="datumOd" class="form-control datumOd" [formControl]="dateDatumOd" matInput
+                [matDatepicker]="picker" required>
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </div>
+          </div>
+          <div class="col-4 m-0">
+            <label class="w-100 text-start">Datum do</label>
+            <div style="display: flex;">
+              <input name="datumDo" class="form-control datumDo" [formControl]="dateDatumDo" matInput 
+                  [matDatepicker]="picker1" required>
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </div>
+          </div>
+      </div>
+    </div>
+    <hr>
+    <!-- <div class="form-row">
+      <div class="col d-flex justify-content-end">
+        <button id="printStanje" type="submit" class="btn btn-info" disabled="true">Prikaži/Print stanje</button>
+      </div>
+    </div> -->
+  </form>
+  <html id="docDefinitionID">
+    <head>
+      <!-- link bootstrap 5 -->
+      <link rel="stylesheet" type="text/css" href="stanje-skladista.component.css">
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    </head>
+    <body>
+      <div>
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h4 class="card-title text-center">Stanje skladišta od {{dateDatumOd.value | date: 'dd.MM.yyyy'}} 
+                    do {{dateDatumDo.value | date: 'dd.MM.yyyy'}} </h4>
+                <div class="card-tools">
+                  <p class="text-start">
+                    Skladište: {{skladiste.naziv}}
+                  </p>
+                </div>
+              </div>
+              <div class="card-body p-2">
+                <div class="table-responsive">
+                  <table class="table mb-0 bg-light">
+                    <thead >
+                      <tr class="bg-light">
+                        <th class="p-1 border border-3 border-dark" width="5%">Sifra</th>
+                        <th class="p-1 border border-3 border-dark" width="30%">Naziv Artikla</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="5%">Jmj</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">Ulaz</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">Izlaz</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">Stanje</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">MPC</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">VPC</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">NC</th>
+                      </tr>
+                    </thead>
+                  </table>
+                  <table class="table bg-light border-0 mb-0">
+                    <tbody class="border-0">
+                      <tr class="bg-light border-0" *ngFor="let group of docDefinition; let i=index">
+                        <td class="text-start p-0 border-0">
+                          <p class="p-1 bg-light mb-0 border border-top-0 border-2 border-dark">{{group.nazivGrupa}}</p>
+                          <table class="table mb-0 border-0 bg-light mt-0 pt-0">
+                            <tbody class="pt-0 mt-0 border-0">
+                              <tr class="bg-light border-0 pt-0 mt-0" *ngFor="let article of group.artikli">
+                                <td class="p-1 border border-top-0 border-2 border-dark" style="width: 5%;">{{article.sifra}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark" style="width: 30%;">{{article.naziv}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 5%">{{article.jedinicaMjereNaziv}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{article.kolicinaUlaz | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{article.kolicinaIzlaz | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{article.kolicinaUlaz - article.kolicinaIzlaz | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{article.mpc | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{article.vpc | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{article.nc | number: '1.2-2'}}</td>
+                              </tr>
+                              <tr>
+                                <td class="p-1 border border-top-0 border-2 border-dark" style="width: 5%;"></td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 30%;">Za grupu:</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark" style="width: 5%;"></td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{group.kolicinaUlaz | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{group.kolicinaIzlaz | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{group.kolicinaUlaz - group.kolicinaIzlaz | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{group.mpc | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{group.vpc | number: '1.2-2'}}</td>
+                                <td class="p-1 border border-top-0 border-2 border-dark text-end" style="width: 10%;">{{group.nc | number: '1.2-2'}}</td>
+                              </tr>
+                            </tbody>  
+                          </table>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <table class="table mb-0 bg-light">
+                    <thead >
+                      <tr class="bg-light">
+                        <th class="p-1 border border-3 border-dark" width="5%"></th>
+                        <th class="p-1 border border-3 border-dark" width="30%">Ukupno stanje skladišta</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="5%"></th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%"></th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%"></th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">{{ukupnoStanje | number: '1.2-2'}}</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">{{ukupnoMpc | number: '1.2-2'}}</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">{{ukupnoVpc | number: '1.2-2'}}</th>
+                        <th class="p-1 border border-3 border-dark text-end" width="10%">{{ukupnoNc | number: '1.2-2'}}</th>
+                      </tr>
+                    </thead>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>    
+      </div>
+    </body>
+  </html>
+</div>

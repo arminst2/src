@@ -1,0 +1,442 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+
+<div class="Frame">
+    <div class="header" id="Head1">
+        <div class="headerSpan">
+            <span>Ulazni račun</span>
+        </div>
+        <div class="actionButtons">
+            <button (click)="printPdf()" class="addInputs">Print pdf</button>
+            <button *ngIf="!racun.zakljucan" class="addInputs" (click)="Delete(templateZakljucaj)">Zaključaj</button>
+            <button *ngIf="racun.zakljucan && isAdmin" class="addInputs" (click)="otkljucajRacun()">Otključaj</button>
+            <button *ngIf="racun.zakljucan && !isAdmin" class="addInputs" (click)="noPermission()">Otključaj</button>
+            <button (click)="ToSection('ListaStavki')" class="addInputs">Pregled stavki</button>
+            <button (click)="ToSection('AddItems')" class="addInputs">Dodaj stavke</button>
+            <button routerLink="/adminpanel/addInputs" class="addInputs">Dodaj račun</button>
+            <!-- <button routerLink="/adminpanel/addInputs" class="addInputs">Printaj račun</button> -->
+        </div>
+    </div>
+    <div class="mainsection">
+        <form #updateForm="ngForm" (ngSubmit)="updateRacun()" autocomplete="off">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-4">
+                        <label>Broj računa</label>
+                        <input type="text" class="form-control" [(ngModel)]="racun.brojRacuna" name="brojRacuna" placeholder="Broj računa" readonly>
+                    </div>
+                    <div class="col">
+                        <label>Broj računa dobavljača</label><span *ngIf="updateForm.controls['brojDobavljaca']?.errors?.required">   *</span>
+                        <input type="text" class="form-control" [(ngModel)]="racun.brojDobavljaca" name = "brojDobavljaca"placeholder="Broj dobavljača" required>
+                    </div>
+                    <div class="col">
+                        <label for="inputState">Dobavljač</label><span *ngIf="customer==null">   *</span>
+                        <input type="button" readonly class="form-control" *ngIf="customer==null" (click)="Get(content1)">
+
+                        <input type="button" readonly class="form-control"  *ngIf="customer!=null" [(ngModel)]="customer.naziv" 
+                            name="cust" name="naziv" (click)="Get(content1)">
+                    </div>
+                    </div>
+                    <hr>
+                    <div class="form-row">
+                        <div class="col">
+                        <label>Današnji datum</label><span *ngIf="updateForm.controls['datum']?.errors?.required">   *</span>
+                        <div style="display: flex;">
+                            <input id="datum" name="datum" class="form-control" #datum [formControl]="dateDatumDanas"
+                                matInput [matDatepicker]="picker0" required>
+                            <mat-datepicker-toggle matSuffix [for]="picker0"></mat-datepicker-toggle>
+                            <mat-datepicker #picker0></mat-datepicker>
+                        </div>
+
+                        </div>
+                        <div class="col">
+                            <label>Datum računa</label><span *ngIf="updateForm.controls['datumRacuna']?.errors?.required">   *</span>
+                            <div style="display: flex;">
+                                <input id="datumRacuna" name="datumRacuna" class="form-control" #datumRacuna [formControl]="dateDatumRacuna" 
+                                    matInput [matDatepicker]="picker" required (dateChange)="changeDatum(datumRacuna.value)">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <label>Datum dospijeća</label><span *ngIf="updateForm.controls['datumDospjeca']?.errors?.required">   *</span>
+                            <div style="display: flex;">
+                                <input name="datumDospjeca" class="form-control" #datumDospjeca [formControl]="dateDatumDospijeca"
+                                    matInput [matDatepicker]="picker1" required>
+                                <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                <mat-datepicker #picker1></mat-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="inputState">Skladište</label><span *ngIf="updateForm.controls['skladisteId']?.errors?.required">   *</span>
+                            <select id="inputState" [(ngModel)]="racun.skladisteId" name="skladisteId" class="custom-select"  required>
+                                <option *ngFor="let item of skladista" value="{{item.skladisteId}}">{{item.naziv}}</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="inputState">Vrsta plaćanja</label><span *ngIf="updateForm.controls['vrstaPlacanjaId']?.errors?.required">   *</span>
+                            <select id="inputState" [(ngModel)]="racun.vrstaPlacanjaId" name="vrstaPlacanjaId" class="custom-select" required>
+                                <option *ngFor="let item of vrstePlacanja" value="{{item.vrstaPlacanjaId}}">{{item.naziv}}</option>
+                            </select>
+                        </div>
+                        <div class="col">
+                            <label for="inputState">Valuta</label><span *ngIf="updateForm.controls['valutaId']?.errors?.required">   *</span>
+                            <select id="inputState" [(ngModel)]="racun.valutaId" name="valutaId" class="custom-select" required>
+                                <option *ngFor="let item of valute" value="{{item.valutaId}}">{{item.oznaka}}</option>
+                            </select>
+                        </div>
+                    </div>
+                <div class="form-row">                    
+                    <div class="col-2">
+                    <label>Iznos bez PDV</label><span *ngIf="updateForm.controls['iznosRacuna']?.errors?.required">   *</span>
+                    <input type="number"  [(ngModel)]="racun.iznosRacuna" name="iznosRacuna" class="form-control"(input)="pdvEditIzracun()" required>
+                    <span *ngIf="racun.iznosRacuna == 0">Iznos ne smije biti 0!</span>
+                    </div>
+                    <div class="col-2">
+                        <label>PDV</label><span *ngIf="updateForm.controls['iznosPoreza']?.errors?.required">   *</span>
+                        <input type="number" [(ngModel)]="racun.iznosPoreza" name="iznosPoreza" class="form-control"(input)="pdvEditIzracun()" required>
+                        <span *ngIf="racun.iznosPoreza == 0">Iznos ne smije biti 0!</span>
+                    </div>
+                    <div class="col-2">
+                        <label>Iznos sa PDV</label><span *ngIf="updateForm.controls['iznosSaPdv']?.errors?.required">   *</span>
+                        <input type="number" [(ngModel)]="racun.iznosSaPdv" name="iznosSaPdv" class="form-control" required>
+                        <span *ngIf="racun.iznosSaPdv == 0">Iznos ne smije biti 0!</span>
+                    </div>     
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" [(ngModel)]="racun.placen" name="placen" id="invalidCheck2">
+                            <label class="form-check-label" for="invalidCheck2">Plaćen račun
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="exampleFormControlTextarea1">Napomena</label>
+                        <textarea class="form-control" [(ngModel)]="racun.napomena" name="napomena" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <button type="button" routerLink="/adminpanel/inputs/" class="btn btn-danger w-10">Otkaži</button>
+                        <button type="submit" (click)="ToSection('Head1')" class="btn btn-info w-10" [disabled]="updateForm.invalid || racun.iznosRacuna == 0 || racun.iznosPoreza == 0 || racun.iznosSaPdv == 0"
+                            pTooltip="Promjene su moguće samo ako je račun otključan" tooltipPosition="top" [tooltipDisabled]="racun.zakljucan == false" >
+                            Sačuvaj
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+<div id="ListaStavki" class="header">
+    <div class="headerSpan">
+        <span>Lista stavki</span>
+    </div>
+</div>
+<div  class="mainsection">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Redni broj</th>
+                <th>Sifra</th>
+                <th>Naziv</th>
+                <th>Kolicina</th>
+                <th>Jedinica mj</th>
+                <th>Cijena</th>
+                <th>Rabat</th>
+                <th>VPC</th>
+                <th>PDV</th>
+                <th>MPC</th>
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody *ngFor="let item of stavkeLista">
+            <tr *ngIf="item.racunId==racun.racunId">
+                <td data-label="Redni broj">{{item.redniBroj}}</td>
+                <td data-label="Sifra artikla">{{item.sifraArtikla}}</td>
+                <td data-label="Naziv artikla">{{item.nazivArtikla}}</td>
+                <td data-label="Kolicina">{{item.kolicina}}</td>
+                <td data-label="Jedinica mjere">{{item.jedMjereNaziv}}</td>
+                <td data-label="Cijena">{{item.ulaznaCijena | number:'1.2-2'}}</td>
+                <td data-label="Rabat">{{item.rabat | number:'1.2-2'}}</td>
+                <td data-label="VPC">{{item.vpc | number:'1.2-2'}}</td>
+                <td data-label="PDV">{{item.porezJedIznos | number:'1.2-2'}}</td>
+                <td data-label="MPC">{{item.mpc | number:'1.2-2'}}</td>
+                <td class="actions">
+                    <button (click)="Delete(contentstavka)"
+                        pTooltip="Promjene su moguće samo ako je račun otključan" tooltipPosition="top" [tooltipDisabled]="racun.zakljucan == false">
+                            Obriši
+                    </button>
+                    <!-- <button routerLink="/adminpanel/editStavka/{{item.stavkeId}}">Uredi</button> -->
+                </td>
+              <ng-template #contentstavka let-modal>
+                  <div class="modal-header">
+                  </div>
+                  <div class="modal-body">
+                    <form autocomplete="off">
+                      <div class="form-group">
+                        <div class="input-group">
+                          <div class="input-group-append">
+                            <h6>Da li ste sigurni da želite obrisati?</h6>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ne</button>
+                    <button type="button" (click)="DeleteStavkaConfirm(item.stavkeId,item.cijenaBezPdv)" class="btn btn-outline-dark" >Da</button>
+                  </div>
+                </ng-template>
+            </tr>
+        </tbody>
+    </table>
+</div>
+    <div class="header">
+        <div class="headerSpan">
+            <span>Dodaj stavku</span>
+        </div>
+    </div>
+    <div id="AddItems" class="mainsection">
+        <form #submitStavka="ngForm" novalidate (ngSubmit)="addStavka(racun.racunId)" autocomplete="off" (input)="calc()">
+            <div class="form-group">
+                <div class="form-row">
+                    <div class="col-4">
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Odaberite artikal ->">
+                            <div class="input-group-prepend">                        
+                                    <a type="button" (click)="Get(content)"><span class="input-group-text" id="basic-addon1">Artikli</span></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="col-4">
+                        <label>Naziv</label>
+                        <input type="text" *ngIf="artikl==null" class="form-control" placeholder="Naziv stavke" readonly>
+                        <input type="text" id="stavkaNaziv" *ngIf="artikl!=null" [(ngModel)]="artikl.naziv" name="naziv" class="form-control" placeholder="Naziv stavke" readonly>
+                    </div>
+                    <!-- <div class="col-2">
+                        <label>Marža</label>
+                        <input type="text" *ngIf="artikl==null" class="form-control" placeholder="Marža" readonly>
+                        <input type="text" *ngIf="artikl!=null" [(ngModel)]="artikl.marza" name="marza" class="form-control" placeholder="Marža" readonly>
+                    </div> -->
+                </div>
+                <div class="form-row">
+                    <div class="col-2">
+                        <label>Količina</label>
+                        <input id="stavkaKolicina" type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.kolicina" name="kolicina" class="form-control" placeholder="Količina"
+                        (input)="cijenaCalc()">
+                    </div>
+                    <div class="col-2">
+                        <label>Cijena</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.ulaznaCijena" name="ulaznaCijena" class="form-control" placeholder="ulaznaCijena"
+                        (input)="cijenaCalc1()">
+                    </div>
+                    <div class="col-2">
+                        <label>Vrijednost</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.cijenaBezPdv" name="cijenaBezPdv" class="form-control" placeholder="cijenaBezPdv">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-2">
+                        <label>Rabat1</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.rabat1" name="rabat1" class="form-control" 
+                            placeholder="Rabat1" (input)="rabatCalc()">
+                    </div>
+                    <div class="col-2">
+                        <label>Rabat2</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.rabat2" name="rabat2" class="form-control" 
+                            placeholder="Rabat2" (input)="rabatCalc()">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="col-2">
+                        <label>Rabat1 Iznos</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.rabat1Iznos" name="rabat1Iznos" 
+                            class="form-control" placeholder="Rabat1 Iznos" tabindex="-1" readonly>
+                    </div>
+                    <div class="col-2">
+                        <label>Rabat2 Iznos</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.rabat2Iznos" name="rabat2Iznos" 
+                            class="form-control" placeholder="Rabat2 Iznos" tabindex="-1" readonly>
+                    </div>
+                    <div class="col-2">
+                        <label>Iznos Rabata</label>
+                        <input type="text" *ngIf="stavka!=null" [(ngModel)]="stavka.rabat" name="rabat" class="form-control" placeholder="Rabat">
+                    </div>
+                </div>
+                <hr>
+                <div class="form-row">
+                    <div class="col-2">
+                        <label>Nab. Cijena</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.nabavnaCijena" name="nabavnaCijena" class="form-control" 
+                            placeholder="Nabavna Cijena" tabindex="-1" readonly>
+                    </div>
+                    <div class="col-2">
+                        <label>Nab. vrijednost</label>
+                        <input type="number" *ngIf="stavka!=null" [(ngModel)]="stavka.nabavnaCijenaVrijednost" name="nabavnaVrijenost" class="form-control" 
+                        placeholder="Nabavna Vrijednost" tabindex="-1" readonly>
+                    </div>
+                </div>
+                <hr>
+                <div style="text-align: left; margin-left: 35px;">
+                    <label>Nakon Rabata</label>
+                </div>
+                <div class="form-row">       
+                    <div class="col-2">
+                        <label>Marža %</label>
+                        <input type="number" *ngIf="artikl==null" class="form-control" placeholder="Marža" >
+                        <input type="number" *ngIf="artikl!=null" [value]="marza" name="marza" class="form-control" 
+                            placeholder="Marža" (input)="marzaCalcMarza($event)">
+                    </div>     
+                    <!-- <div class="col-2">
+                        <label>NC</label>
+                        <input type="number" *ngIf="artikl==null" class="form-control" placeholder="Nabavna cijena" >
+                        <input type="number" *ngIf="artikl!=null" [(ngModel)]="artikl.nc" name="nc" class="form-control" placeholder="Nabavna cijena" >
+                    </div> -->
+                    <div class="col-2">
+                        <label>VPC</label>
+                        <input type="number" *ngIf="artikl==null" class="form-control" placeholder="Veleprodajna cijena" >
+                        <input type="number" *ngIf="artikl!=null" [value]="vpc" name="vpc" class="form-control" 
+                            placeholder="Veleprodajna cijena" (input)="marzaCalcVPC($event)">
+                    </div>
+                    <div class="col-2">
+                        <label>MPC</label>
+                        <input type="number" *ngIf="artikl==null" class="form-control" placeholder="Maloprodajna cijena" >
+                        <input type="number" *ngIf="artikl!=null" [value]="mpc" name="mpc"  class="form-control" 
+                            placeholder="Maloprodajna cijena" (input)="marzaCalcMPC($event)">
+                    </div>
+                    <div class="col-2">
+                        <label></label>
+                        <div class="form-group">
+                            <div class="form-check">
+                                <!-- <input class="form-check-input" type="checkbox" id="gridCheck" name="azurirajArtikal" [(ngModel)]="azurirajArtikal">
+                                <label class="form-check-label" for="gridCheck">
+                                    Ažuriraj artikal
+                                </label> -->
+                                <p-checkbox name="groupname" [binary]="true" label="Ažuriraj artikal" [(ngModel)]="azurirajArtikal"></p-checkbox>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <div class="col-2">
+                        <label>Jedinica mjere</label>
+                        <input type="text" *ngIf="artikl==null" class="form-control" placeholder="Jedinica mjere" readonly>
+                        <input type="text" *ngIf="artikl!=null" [(ngModel)]="artikl.jedinicaMjereNaziv" name="jedinicaMjereNaziv" class="form-control" placeholder="Jedinica mjere" readonly>
+                    </div> -->
+                </div>
+                <div class="form-row">
+                    <div class="col">
+                        <button type="button" class="btn btn-danger">Otkaži</button>
+                        <button type="submit" class="btn btn-info"
+                            pTooltip="Promjene su moguće samo ako je račun otključan" tooltipPosition="top" [tooltipDisabled]="racun.zakljucan == false">
+                                Sačuvaj
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <ng-template #content let-modal >
+        <div class="modal-header">
+          <h4 class="modal-title" id="modal-basic-title">Artikli</h4>
+        </div>
+        <div class="modal-body">
+            <form autocomplete="off">     
+                <div class="rowActions">
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="Naziv artikla" name="artiklNaziv" [(ngModel)]="artiklNaziv"
+                        (ngModelChange)="Search()">
+                        <div class="input-group-prepend">                        
+                                <span class="input-group-text" id="basic-addon1"><i class='bx bx-search' ></i></span>
+                        </div>
+                    </div>
+                </div>
+                <table class="tableModalItems table">
+                  <thead>
+                      <tr>
+                          <th>Rbr</th>
+                          <th>Naziv</th>
+                          <th>MPC</th>
+                      </tr>
+                  </thead>
+                  <tbody >
+                      <tr *ngFor="let item of artikliFilter" id="trArtikl" (click)="getArtiklById(item.artiklId)"
+                      style="cursor: pointer;">
+                          <td data-label="Rbr">{{item.artiklId}}</td>
+                          <td data-label="Naziv">{{item.naziv}}</td>
+                          <td data-label="MPC">{{item.mpc}}</td>                          
+                      </tr>
+                  </tbody>
+                </table>
+            </form>
+        </div>
+      </ng-template>
+</div>
+
+<ng-template #content1 let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Dobavljači</h4>
+    </div>
+    <div class="modal-body">
+      <form>     
+          <div class="rowActions">     
+            <div class="rowActions">
+                <div class="input-group">
+                    <input placeholder="Pretraži" type="text" class="form-control" #pretraga (input)="filterPoNazivuKupac(pretraga)">
+                    <div class="input-group-prepend">                        
+                            <span class="input-group-text" id="basic-addon1"><i class='bx bx-search' ></i></span>
+                    </div>
+                </div>
+            </div>
+          </div>
+            <table class="tableModalItems table">
+              <thead>
+                  <tr>
+                      <th>Šifra</th>
+                      <th>Naziv</th>
+                      <th>Adresa</th>
+                      <th>Mjesto</th>
+                  </tr>
+              </thead>
+              <tbody >
+                  <tr *ngFor="let item of customers" (click)="getCustomerById(item.kupacId)">
+                      <td data-label="Šifra">{{item.sifra}}</td>
+                      <td data-label="Naziv">{{item.naziv}}</td>
+                      <td data-label="Adresa">{{item.adresa}}</td>                          
+                      <td data-label="Mjesto">{{item.gradNaziv}}</td>                          
+                  </tr>
+              </tbody>
+          </table>
+      </form>
+    </div>
+  </ng-template>
+  <ng-template #templateZakljucaj let-modal>
+    <div class="modal-header">
+    </div>
+    <div class="modal-body">
+      <form autocomplete="off">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-append">
+              <h6>Da li ste sigurni da želite zaključati račun?</h6>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ne</button>
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click'); zakljucajRacun()">Da</button>
+    </div>
+  </ng-template>

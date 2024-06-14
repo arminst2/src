@@ -1,0 +1,70 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</head>
+
+<div *ngIf="isAdmin" class="tableFrame">
+    <div class="header">
+        <div class="headerSpan">
+            <span>Korisnici</span>
+        </div>
+    </div>
+    <div class="underHeader">
+        <input placeholder="Pretraži" type="text" class="form-control" #pretraga (input)="filterPoNazivu(pretraga)">
+        <button (click)="dodaj()" class="addInputs">Dodaj korisnika&nbsp;<i class="bi bi-plus"></i></button>        
+    </div>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ime</th>
+                <th>Prezime</th>
+                <th>Korisnicko ime</th>
+                <!-- <th>Klijent</th> -->
+                <th>Akcije</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of users | slice: pageSize | slice: 0:itemsPerPage">
+                <td data-label="Ime">{{item.ime}}</td>
+                <td data-label="Prezime">{{item.prezime}}</td>
+                <td data-label="Korisnicko ime">{{item.korisnickoIme}}</td>
+                <!-- <td data-label="Klijent">{{item.klijentId}}</td> -->
+                <td class="actions">
+                    <button class="btnuredi"(click)="uredi(item)"><i class="bi bi-pencil-square"></i>Uredi</button>
+                    <button class="btnobrisi"(click)="DeleteModal(templateDelete, item.korisnikId!)"><i class="bi bi-card-text"></i>Obriši</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <ngb-pagination id="pageing" [collectionSize]="users.length" [pageSize]="itemsPerPage" 
+        [(page)]="currentPage" [maxSize]="10" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+</div>
+
+<ng-template #templateDelete let-modal>
+    <div class="modal-header">
+    </div>
+    <div class="modal-body">
+      <form autocomplete="off">
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-append">
+              <h6>Da li ste sigurni da želite obrisati?</h6>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button class="btnobrisi" type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ne</button>
+      <button class="btnobrisi" type="button" class="btn btn-outline-dark" (click)="modal.close('Save click'); obrisi()">Da</button>
+    </div>
+  </ng-template>

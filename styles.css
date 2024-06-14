@@ -1,0 +1,20 @@
+/* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'CatamaranRegular';
+    src: url('./assets/fonts/Catamaran-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+  }
+  .CatamaranRegular{
+    font-family: CatamaranRegular;
+  }
+  @font-face {
+    font-family: 'Catamaran-ExtraBold';
+    src: url('./assets/fonts/Catamaran-ExtraBold.ttf') format('truetype');
+    
+  }
+  .CatamaranRegular{
+    font-family: Catamaran-ExtraBold;
+  }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

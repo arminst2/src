@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Fakture.ba - Napravite besplatno fakturu u samo nekoliko koraka</title>
+    <meta name="description" content="Fakture.ba je najjednostavniji način fakturisanja potpuno besplatno. Napravite fakturu ili ponudu u samo nekoliko koraka.
+    Preuzmite PDF ili Excel verzije faktura i ponuda samo jednim klikom, ili pošaljite klijentima na mail.">
+    <meta name="keywords" content="faktura, fakture, fakture.ba, račun, pdf račun, online servis za izradu računa, izrada računa,
+     fakturisanje, upravljenje fakturama, upravljanje računima, upravljanje klijentima, izrada ponuda, izgled računa, pdf faktura,
+      baza klijenata, slanje računa mailom, d.o.o., robno, materijalno, besplatno, besplatan program, besplatan program za izradu faktura, 
+    obrt, freelance, knjigovodstvo, brza izrada faktura, brza izrada računa, računovodstvo, klijenti, proizvodi, izvještaj, klijentima ">
+    <meta property="og:title" content="Fakture.ba - najjednostavniji način fakturisanja. Brzo, moderno i besplatno">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.fakture.ba">
+    <meta property="og:site_name" content="Fakture.ba - izrada faktura putem weba">
+    <meta property="og:description" content="Zaboravite Word i Excel i napravite fakturu ili ponudu u samo par klikova potpuno besplatno.">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+    <!-- JavaScript Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js" integrity="sha384-JEW9xMcG8R+pH31jmWH6WWP0WintQrMb4s7ZOdauHnUtxwoG2vI5DkLtS3qm9Ekf" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+	<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+
+</head>
+
+<body>
+<!--Header-->
+    <section id="header">
+        <div class="header">
+            <div class="nav-bar">
+                <div class="brand">
+                    
+                    <a href="#"> <img src ="../../assets/img/logop.png" alt="logoo"></a>
+                   <!---- <a (click)="ToSection('home')"><h1><span>F</span>aktura.ba</h1></a>-->
+                </div>
+                <div class="nav-list">
+                    <div class="hamburger">
+                        <div class="bar">
+                            
+                        </div>
+                    </div>
+                    <ul class="headerNav">
+                        <li (click)="ToSection('why')"><a  data-after="Zašto?">Zašto</a></li>
+                        <li (click)="ToSection('features')"><a data-after="Mogućnosti">Mogućnosti</a></li>
+                        <li (click)="ToSection('offers')"><a data-after="Ponuda">Ponuda</a></li>
+                        <li > <a class="buttonSignIn" routerLink="/prijava/0" target="_blank">Prijava</a></li>
+                        
+                    </ul>                
+                </div>
+            </div>
+        </div>
+    </section>
+<!--End Header-->
+
+<!--Home section-->
+    <section id="home">
+        <div class="home container">
+            <div class="row">
+                <div class="col-md-6">
+                    <div id="homeFrame">
+                        <div class="textBox">
+                        <h1>Izrada faktura nikad nije bila lakša.</h1>
+                        <h3 >Napravite besplatno fakturu u samo nekoliko koraka.<span></span></h3>
+                    </div>
+                        <div class="Buttons">
+                            <a routerLink="/registracija" type="button" class="registracija">Registracija</a>
+                            <a routerLink="/prijava/0" type="button" class="prijava">Prijava</a>
+                        </div>
+                    </div>
+                </div>
+                <div class=" col-md-6" >
+                    <div class="homeMockupDesktop">
+                        <img alt="slika" src="../../assets/img/finallap.png">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+<!--End Home section-->
+
+<!--Zašto Faktura.ba section-->
+
+<section id="why-container" >
+    <section id="why" >
+             <!--Zašto Faktura.ba item//First-->
+            <div class="why-top" >
+                <img class="background-bubble1" src="../../assets/img/bubbleUpper.png">
+                <div class="icon">
+                    <img alt="Icon#" src="../../assets/img/bubbleText.png">
+               </div>
+               <div id="flex-container">
+                   <div class="flex-left" >
+                    <h2 class="why-title">Zašto Fakture.ba?</h2>
+                    <p>Naš softver je namijenjen srednjim i <br> malim kompanijama u njihovom <br>poslovanju</p>
+                    </div>
+                    <div class="flex-right">
+                        <img alt="Icon#" src="../../assets/img/clients.png">
+                    </div>
+                </div>
+            </div>
+    </section>
+            <!--Zašto Faktura.ba item//Second-->
+            <section id="features">
+            <div class="why-middle">
+                <img class="background-bubble2" src="../../assets/img/bubbleLeft.png">
+                <div class="icon">
+                    <img alt="Icon#" src="../../assets/img/bubbleText.png">
+               </div>
+               <div id="flex-container">
+                   <div class="flex-left">
+                    <h2 class="why-title">Proizvodi i Usluge</h2>
+                    <p> ⦿ vođenje evidencije proizvoda<br>
+                        ⦿ robno-materijalno poslovanje<br>
+                        ⦿ automatsko pridruživanje fakturama <br>
+                        ⦿ neograničeno i besplatno izrađivanje faktura<br>
+                    </p>
+                    </div>
+                    <div class="flex-right">
+                        <img alt="Icon#" src="../../assets/img/products.png">
+                    </div>
+                </div>
+            </div>
+
+             <!--Zašto Faktura.ba item//Third-->
+             <div class="why-bottom">
+                <img class="background-bubble3" src="../../assets/img/bubbleLower.png">
+                <div class="icon">
+                    <img alt="Icon#" src="../../assets/img/bubbleText.png">
+               </div>
+               <div id="flex-container">
+                    <div class="flex-left">
+                        <h2 class="why-title">Izvještaji</h2>
+                        <p>Praćenje detaljnih izvještaja svih klijenata.<br>
+                            
+                        </p>
+                    </div>
+                    <div class="flex-right">
+                        <img alt="Icon#" src="../../assets/img/reports.png">
+                    </div>
+                </div>
+            </div>
+    </section>
+</section>
+<!--End Zašto Faktura.ba section-->
+
+
+<!--Offer section-->
+<section id="offers">
+    <!--Try it out div-->
+    <div class="tryOut-item">
+        <h3>Kreirajte vašu prvu besplatnu fakturu.<span class="line-break"></span> Podignite vaše poslovanje na veću razinu!</h3>
+        <a class="tryOutButton"
+        routerLink="/registracija" target="_blank">Napravi fakturu</a>
+    </div>
+    <div class="functionalities">
+        <!--First item-->
+        <div class="functionalities-item">
+            <div id="first-item">
+                <img src="../../assets/img/options.png">
+                <h3 class="func-title">P R E D N O S T I</h3>
+                <p>Upravljajte fakturama, ponudama, Vašim klijentima i proizvodima
+                    Preuzmite PDF ili Excel verziju ili je pošaljite klijentu</p>
+            </div>
+        </div>
+        <!--Second item-->
+        <div class="functionalities-item">
+            <div id="second-item">
+                <img src="../../assets/img/pros.png">
+                <h3 class="func-title">O P C I J E</h3>
+                <p>Izrada faktura u samo nekoliko koraka potpuno besplatno
+                    Mogućnosti robno-materijalno poslovanje</p>
+            </div>
+        </div>
+        <!--Third item-->
+        <div class="functionalities-item">
+            <div id="third-item">
+                <img src="../../assets/img/security.png">
+                <h3 class="func-title">S I G U R N O S T </h3>
+                <p>Vaši podaci su zaštićeni sigurnosnim protokolom (SSL)</p>
+            </div>
+        </div>
+    </div>
+    
+</section>
+<!--End Offer section-->
+
+
+<!--Footer section-->
+<footer>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="left-side">
+                <span>Copyright © 2023. Fakture.ba. <span class="line-break"></span>All rights reserved. </span>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="right-side">
+                <a href="https://fakture.ba" target="_blank">
+                    <img src="../../assets/img/logop.png">
+                </a>
+            </div>
+        </div>
+    </div>
+</footer>
+<!--End Footer section-->
+
+
+
+
+</body>
+</html>
+<script type="text/javascript">
+     const hamburger = document.querySelector('#header .header .nav-bar .nav-list .hamburger');
+
+     hamburger.addEventListener('click',() => {
+         hamburger.classList.toggle('active');
+         mobile.classList.toggle('active');
+     });
+ 
+     document.addEventListener('scroll',()=>{
+         var scroll_pos=window.scrollY;
+         if(scroll_pos>100)
+         {
+             header.style.backgroundColor="#200933";
+         }
+         else{
+             header.style.backgroundColor="transparent";
+         }
+     });
+
+
+
+    $(document).ready(function() {
+      $(".headerNav li a").click(function() {
+        var section = $(this).attr("data-after");
+        $("html, body").animate({
+          scrollTop: $("#" + section).offset().top
+        }, 1000);
+      });
+    });
+    </script>
+    <script>
+
+    const hamburgerButton = document.querySelector('#header .header .nav-bar .nav-list .hamburger');
+    const headerNav = document.querySelector('#header .nav-list .headerNav');
+
+    hamburgerButton.addEventListener('click', function() {
+    if (headerNav.style.display === 'none') {
+    headerNav.style.display = 'block';
+    } else {
+    headerNav.style.display = 'none';
+    }
+    });
+    </script>

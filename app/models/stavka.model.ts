@@ -1,0 +1,43 @@
+export class IStavka {
+    public stavkeId!: number;
+    public klijentId!: number;
+    public dokumentId!: number;
+    public redniBroj!: number;
+    public artiklId!: number;
+    public kolicina!: number;
+    public sifraArtikla! : string;
+    public nazivArtikla! : string;
+    public jedMjere! : number;
+    public jedMjereNaziv! : string;
+    public vpc! : number;
+    public vpv! : number;
+    public mpc! : number;
+    public mpv! : number;
+    public fisrabatbroj!: number;
+    public stopaPoreza!: number;
+    public porezIznos!: number;
+    public porezJedIznos!: number;
+    public cijenaBezPdv!: number;
+    public ulaznaCijena!: number;
+    public nabavnaCijena!: number;
+    public nabavnaCijenaVrijednost!: number;
+    public rabat1!: number;
+    public rabat1Iznos!: number;
+    public rabat!: number;
+    public rabatPerc!: number;
+    public rabatStopa!: number;
+    public rabat2!: number;
+    public rabat2Iznos!: number;
+    public porezId!: number;
+    public datum!: Date;
+    public skladisteIzlazId!: number;
+    public skladisteUlazId!: number;
+    public racunId!: number;
+    public index: number;
+    public marza: number;
+    public marzaIznos: number;
+    public fc: number;
+    public faktIznos: number;
+    // public otpremnicaId!: number;
+}
+

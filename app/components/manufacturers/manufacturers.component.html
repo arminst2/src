@@ -1,0 +1,104 @@
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+      integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+      integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+      crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+      integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+      crossorigin="anonymous"></script>
+</head>
+<!-- Add modal -->
+<ng-template #templateAdd let-modal>
+    <form #submitForm="ngForm" novalidate (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Dodavanje proizvodjaca</h4>
+    </div>
+    <div class="modal-body">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Naziv proizvodjaca</label>
+          <input type="text" class="form-control" [(ngModel)]="manufacturer.naziv" 
+            name="naziv" id="exampleFormControlInput1" placeholder="" required>
+        </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Odustani</button>
+      <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')" [disabled]="submitForm.invalid">Snimi</button>
+    </div>
+  </form>
+  </ng-template>
+
+  <!--Update modal-->
+  <ng-template #templateEdit let-modal>
+    <form #updateForm="ngForm" (ngSubmit)="uredi()" autocomplete="off"> 
+      <div class="modal-header">
+        <h4 class="modal-title" id="modal-basic-title">Ažuriranje podataka</h4>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="exampleFormControlInput1">Naziv proizvodjaca</label>
+          <input type="text" class="form-control" [(ngModel)]="this._manufacturerService.formData.naziv" name="naziv" required>
+        </div>
+      </div>
+      <div class="modal-footer">
+        
+        <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Odustani</button>
+        <button type="submit" class="btn btn-outline-dark" (click)="modal.close('Save click')" [disabled]="updateForm.invalid">Snimi promjene</button>  </div>
+      </form>
+  </ng-template>
+
+   <!--Delete modal-->
+   <ng-template #templateDelete let-modal>
+    <div class="modal-header">
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <div class="input-group">
+            <div class="input-group-append">
+              <h6>Da li ste sigurni da želite obrisati?</h6>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.close('Save click')">Ne</button>
+      <button type="button" class="btn btn-outline-dark" (click)="obrisi()">Da</button>
+    </div>
+  </ng-template>
+<div class="tableFrame">
+    <div class="header">
+        <div class="headerSpan">
+            <span>Proizvođač</span>
+        </div>
+    </div>
+    <div class="underHeader">
+      <input placeholder="Pretraži" type="text" class="form-control" #pretraga (input)="filterPoNazivu(pretraga)">
+        <button (click)="Add(templateAdd)" class="addInputs">Dodaj proizvođača&nbsp;<i class="bi bi-plus"></i></button>
+    </div>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Naziv</th>
+          <!-- <th>Klijent</th> -->
+            <th>Akcije</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of this.manufacturers | slice: pageSize | slice: 0:itemsPerPage">
+            <td data-label="Naziv">{{item.naziv}}</td>
+            <!-- <td data-label="Klijent">{{item.klijentNaziv}}</td> -->
+            <td class="actions">
+              <button class="btnuredi" (click)="Update(templateEdit, item)"><i class="bi bi-pencil-square"></i>Uredi</button>
+              <button class="btnobrisi" (click)="Delete(templateDelete, item)"><i class="bi bi-card-text"></i>Obriši</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <ngb-pagination id="pageing" [collectionSize]="this.manufacturers.length" [pageSize]="itemsPerPage" 
+        [(page)]="currentPage" [maxSize]="10" (pageChange)="onPageChange(currentPage)"></ngb-pagination>
+  </div>

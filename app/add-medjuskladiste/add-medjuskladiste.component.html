@@ -1,0 +1,130 @@
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+
+<div class="Frame">
+    <div class="header">
+        <span>Nova međuskladišnica</span>
+    </div>
+    <div *ngIf="dodavanje==true" class="alert-success">Uspješno ste ažurirali međuskladišnicu!</div>
+    <div class="mainsection">
+        <!--firs red-->
+        <form id="submitForm" #submitForm="ngForm" novalidate (ngSubmit)="onSubmit()" autocomplete="off">
+            <div class="form-group">
+                    <div class="form-row">
+                        <div class="col-2">
+                            <label>Broj međuskladišnica</label>
+                            <input type="text" class="form-control" readonly [(ngModel)]="brojRacuna" name="BrojRacuna" placeholder="Broj računa">
+                        </div>
+                        <!-- <div class="col-4">
+                            <label for="inputState">Kupac/Dobavljač</label><span *ngIf="cust == null">   *</span>
+                            <input id="dodajKupca" type="button" value="Dodaj kupca/dobavljača" readonly class="form-control" *ngIf="cust==null" 
+                                (click)="Get(content)">
+                            <span id="kupacValidacija" class="invalid-feedback"> 
+                                Kupac/Dobavljač nije odabran 
+                            </span>
+                            <input type="button" readonly class="form-control" *ngIf="cust!=null" 
+                                [(ngModel)]="cust.naziv" name="cust" name="naziv" (click)="Get(content)">
+                        </div> -->
+                    </div>
+                    <hr> 
+                <!--second row-->
+
+                    <div class="form-row">
+                        <div class="col-4 position-relative">
+                            <label class="w-100">Datum međuskladišnice</label><span *ngIf="submitForm.controls['datumRacuna']?.errors?.required">   *</span>
+                            <input matInput #datumRacuna [matDatepicker]="pickerDatumRacuna" [formControl]="dateDatumRacuna" class="w-100" 
+                                style="padding: 6px 12px; border: 1px solid #ced4da; border-radius: .25rem;" 
+                                (dateChange)="changeDatumRacuna(datumRacuna.value)">
+                            <mat-datepicker-toggle style="position: absolute; width: 100%; left: 0; opacity: 0;" matSuffix 
+                                [for]="pickerDatumRacuna" tabindex="-1"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerDatumRacuna></mat-datepicker>
+                        </div>
+                        <!-- <div class="col-4 position-relative">
+                            <label class="w-100">Datum dospijeća</label><span *ngIf="submitForm.controls['datumRacuna']?.errors?.required">   *</span>
+                            <input matInput [matDatepicker]="pickerDatumDospijeca" [formControl]="dateDatumDospijeca" class="w-100" 
+                                style="padding: 6px 12px; border: 1px solid #ced4da; border-radius: .25rem;">
+                            <mat-datepicker-toggle style="position: absolute; width: 100%; left: 0; opacity: 0;" matSuffix 
+                                [for]="pickerDatumDospijeca" tabindex="-1"></mat-datepicker-toggle>
+                            <mat-datepicker #pickerDatumDospijeca></mat-datepicker>
+                        </div> -->
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="inputStateSkladisteIzlaz">Skladište izlaz</label><span *ngIf="submitForm.controls['skladisteIzlazId']?.errors?.required">   *</span>
+                            <select id="inputStateSkladisteIzlaz" [(ngModel)]="racun.skladisteIzlazId" name="skladisteIzlazId" class="custom-select" required>
+                                <option *ngFor="let item of skladista" value="{{item.skladisteId}}" (click)="provjeriSkladisteValidaciju()">
+                                    <!-- <span *ngIf="item.skladisteId != submitForm.controls['skladisteUlazId'].value">{{item.naziv}}</span> -->
+                                    <!-- <span *ngIf="item.skladisteId == submitForm.controls['skladisteUlazId'].value" class="notClickable d-none">Nije moguće odabrati isto skladište</span> -->
+                                    <span>{{item.naziv}}</span>
+                                </option>
+                            </select>
+                            <span *ngIf="!racun.hasOwnProperty('skladisteIzlazId')" id="skladisteIzlazValidacija" class="invalid-feedback"> 
+                                Skladište nije odabrano
+                            </span>
+                            <span id="skladisteIzlazUlazValidacija" class="invalid-feedback d-none"> 
+                                Nije moguće odabrati isto skladište
+                            </span>
+                        </div>
+                        <div class="col">
+                            <label for="inputStateSkladisteUlaz">Skladište ulaz</label><span *ngIf="submitForm.controls['skladisteUlazId']?.errors?.required">   *</span>
+                            <select id="inputStateSkladisteUlaz" [(ngModel)]="racun.skladisteUlazId" name="skladisteUlazId"class="custom-select" required>
+                                <option *ngFor="let item of skladista" value="{{item.skladisteId}}" (click)="provjeriSkladisteValidaciju()">
+                                    <!-- <span *ngIf="item.skladisteId != submitForm.controls['skladisteIzlazId'].value">{{item.naziv}}</span>
+                                    <span *ngIf="item.skladisteId == submitForm.controls['skladisteIzlazId'].value" class="notClickable d-none">Nije moguće odabrati isto skladište</span> -->
+                                    <span>{{item.naziv}}</span>
+                                </option>
+                            </select>
+                            <span *ngIf="!racun.hasOwnProperty('skladisteUlazId')" id="skladisteUlazValidacija" class="invalid-feedback"> 
+                                Skladište nije odabrano
+                            </span>
+                            
+                            <span id="skladisteUlazIzlazValidacija" class="invalid-feedback d-none"> 
+                                Nije moguće odabrati isto skladište
+                            </span>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col">
+                            <label for="inputStateVrstaPlacanja">Vrsta plaćanja</label><span *ngIf="submitForm.controls['vrstaPlacanjaId']?.errors?.required">   *</span>
+                            <select id="inputStateVrstaPlacanja"  [(ngModel)]="racun.vrstaPlacanjaId" name="vrstaPlacanjaId" 
+                                class="custom-select" required>
+                                <option *ngFor="let item of vrstePlacanja" value="{{item.vrstaPlacanjaId}}">{{item.naziv}}</option>
+                            </select>
+                            <span *ngIf="!racun.hasOwnProperty('vrstaPlacanjaId')" id="vrstaPlacanjaValidacija" class="invalid-feedback"> 
+                                Vrsta plaćanja nije odabrana
+                            </span>
+                        </div>
+                        <div class="col">
+                            <label for="inputStateValuta">Valuta</label><span *ngIf="submitForm.controls['valutaId']?.errors?.required">   *</span>
+                            <select id="inputStateValuta" [(ngModel)]="racun.valutaId" name="valutaId" class="valuta" 
+                                class="custom-select" required>
+                                <option *ngFor = "let item of valute"  value="{{item.valutaId}}">{{item.oznaka}}</option>
+                            </select>
+                            <span *ngIf="!racun.hasOwnProperty('valutaId')" id="valutaValidacija" class="invalid-feedback"> 
+                                Valuta nije odabrana
+                            </span>
+                        </div>
+                    </div>
+                <div class="form-row">
+                    <div class="col">
+                        <label for="exampleFormControlTextarea1">Napomena</label>
+                        <textarea class="form-control" [(ngModel)]="racun.napomena" name="napomena" 
+                            id="exampleFormControlTextarea1" rows="3"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="form-row position-relative">
+                <div class="col">
+                    <button type="button" class="btn btn-danger">Otkaži</button>
+                    <button type="submit" class="btn btn-info" [disabled]="submitForm.invalid || skladisteValidacija">Sačuvaj</button>
+                </div>
+                <button *ngIf="submitForm.invalid || skladisteValidacija" type="button" class="btn btn-info position-absolute btn-validator" (click)="validationForm()">Sačuvaj</button>
+            </div>
+        </form>
+            
+    </div>
+</div>

@@ -1,0 +1,151 @@
+<head>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</head>
+
+<div class="Frame">
+  <div class="header">
+    <span>Nova otpremnica</span>
+  </div>
+  <div *ngIf="dodavanje==true" class="alert-success">Uspješno ste ažurirali otpremnicu!</div>
+  <div class="mainsection">
+    <!--firs red-->
+    <form #submitForm="ngForm" novalidate (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="form-group">
+        <div class="form-row">
+          <div class="col-2">
+            <label>Broj otpremnice</label>
+            <input type="text" class="form-control" readonly [(ngModel)]="brojOtpremnice" name="BrojRacuna" placeholder="Broj otpremnice">
+          </div>
+          <div class="col-4">
+            <label for="inputState">Kupac</label><span *ngIf="customer == null">   *</span>
+            <input type="button" value="Dodaj kupca" readonly class="form-control" *ngIf="customer==null" (click)="Get(content)" >
+
+            <input type="button" readonly class="form-control"  *ngIf="customer!=null" [(ngModel)]="customer.naziv" name="customer" name="naziv" (click)="Get(content)">
+            <span id="kupacValidacija" class="invalid-feedback"> 
+                Kupac/Dobavljač nije odabran 
+            </span>
+          </div>
+        </div>
+        <hr>
+        <!--second row-->
+
+        <div class="form-row">
+          <div class="col-4">
+            <label>Datum otpremnice</label><span *ngIf="submitForm.controls['datumRacuna']?.errors?.required">   *</span>
+            <input type="date" [(ngModel)]="otpremnice.datumRacuna" name="datumRacuna" class="form-control" required>
+            <span *ngIf="!otpremnice.hasOwnProperty('datumRacuna')" id="datumRacunaValidacija" class="invalid-feedback"> 
+              Datum računa nije odabran
+          </span>
+          </div>
+          <div class="col-4">
+            <label>Datum dospijeća</label><span *ngIf="submitForm.controls['datumDospjeca']?.errors?.required">   *</span>
+            <input type="date" [(ngModel)]="otpremnice.datumDospjeca" name="datumDospjeca" class="form-control" required>
+            <span *ngIf="!otpremnice.hasOwnProperty('datumDospjeca')" id="datumDospijecaValidacija" class="invalid-feedback"> 
+              Datum dospijeća nije odabran
+          </span>
+          </div>
+        </div>
+        <!--third row-->
+
+        <div class="form-row">
+          <div class="col">
+            <label for="inputState">Skladište</label><span *ngIf="submitForm.controls['skladisteId']?.errors?.required">   *</span>
+            <select id="inputState" [(ngModel)]="otpremnice.skladisteId" name="skladisteId"class="custom-select" required>
+              <option *ngFor="let item of skladista"  value="{{item.skladisteId}}">{{item.naziv}}</option>
+            </select>
+            <span *ngIf="!otpremnice.hasOwnProperty('skladisteId')" id="skladisteValidacija" class="invalid-feedback"> 
+                Skladište nije odabrano
+            </span>
+          </div>
+          <div class="col">
+            <label for="inputState">Vrsta plaćanja</label><span *ngIf="submitForm.controls['vrstaPlacanjaId']?.errors?.required">   *</span>
+            <select id="inputState"  [(ngModel)]="otpremnice.vrstaPlacanjaId" name="vrstaPlacanjaId" class="custom-select"required>
+              <option *ngFor="let item of vrstePlacanja" value="{{item.vrstaPlacanjaId}}">{{item.naziv}}</option>
+            </select>
+            <span *ngIf="!otpremnice.hasOwnProperty('vrstaPlacanjaId')" id="vrstaPlacanjaValidacija" class="invalid-feedback"> 
+                Vrsta plaćanja nije odabrana
+            </span>
+          </div>
+          <div class="col">
+            <label for="inputState">Valuta</label><span *ngIf="submitForm.controls['valutaId']?.errors?.required">   *</span>
+            <select id="inputState" [(ngModel)]="otpremnice.valutaId" name="valutaId" class="valuta" class="custom-select" required>
+              <option *ngFor = "let item of valute"  value="{{item.valutaId}}">{{item.oznaka}}</option>
+            </select>
+            <span *ngIf="!otpremnice.hasOwnProperty('valutaId')" id="valutaValidacija" class="invalid-feedback"> 
+                Valuta nije odabrana
+            </span>
+          </div>
+        </div>
+        <!--fourth row-->
+        <!-- <div class="form-row">
+          <div class="col-4">
+            <label >FIS broj</label>
+            <input type="number" [(ngModel)]="otpremnice.fisbroj" name="fisbroj" class="form-control">
+          </div>
+        </div> -->
+        <!--Sixth row-->
+        <div class="form-row">
+          <div class="col">
+            <label for="exampleFormControlTextarea1">Napomena</label>
+            <textarea class="form-control" [(ngModel)]="otpremnice.napomena" name="napomena" id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+        </div>
+        <!--Buttons-->
+      </div>
+      <div class="form-row position-relative">
+        <div class="col">
+          <button type="button" class="btn btn-danger">Otkaži</button>
+          <button type="submit"  class="btn btn-info" [disabled]="submitForm.invalid || customer == null">Sačuvaj</button>
+        </div>
+        <button *ngIf="submitForm.invalid || customer == null" type="button" class="btn btn-info position-absolute btn-validator" (click)="validationForm()">Sačuvaj</button>
+      </div>
+    </form>
+
+  </div>
+
+  <ng-template #content let-modal >
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Kupci</h4>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="rowActions">
+          <!--dropdowngrupa-->
+
+
+          <!--Search-->
+          <div class="rowActions">    <!--Search-->
+            <div class="input-group">
+              <input placeholder="Pretraži" type="text" class="form-control" #pretraga (input)="filterPoNazivuKupac(pretraga)">
+              <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon1"><i class='bx bx-search' ></i></span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <table class="tableModalItems table">
+          <thead>
+          <tr>
+            <th>Šifra</th>
+            <th>Naziv</th>
+            <th>Adresa</th>
+            <th>Mjesto</th>
+          </tr>
+          </thead>
+          <tbody >
+          <tr *ngFor="let item of customers" (click)="getCustomerById(item.kupacId)">
+            <td data-label="Šifra">{{item.sifra}}</td>
+            <td data-label="Naziv">{{item.naziv}}</td>
+            <td data-label="Adresa">{{item.adresa}}</td>
+            <td data-label="Mjesto">{{item.gradNaziv}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </form>
+    </div>
+  </ng-template>
+</div>
