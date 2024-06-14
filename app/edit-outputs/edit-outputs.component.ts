@@ -136,7 +136,6 @@ export class EditOutputsComponent implements OnInit {
 
   async getData() {
     this.getTokens();
-    await this.Get();
     await this.getIsAdmin();
     await this.getSkladista();
     await this.getGradovi();
